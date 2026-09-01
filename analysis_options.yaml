@@ -1,33 +1,141 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
+# EIRA — Configuración de análisis estático
 #
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
+# Cierra RNF-25 ("flutter analyze sin errores ni warnings") y sostiene, desde el
+# analizador, las prohibiciones de CLAUDE.md que sí son expresables como lints.
+#
+# LO QUE ESTE ARCHIVO NO PUEDE HACER
+# El analizador de Dart no admite reglas de "import prohibido por carpeta" ni de
+# "expresión prohibida por carpeta". Por eso E4 (shared_preferences solo en
+# core/storage/), E5 (Color(0xFF…) solo en core/theme/), E7 (cero archivos
+# huérfanos) y la prohibición de red se verifican con tool/check_architecture.dart.
+# La justificación completa está en docs/decisions/ADR-007.
+#
+# Base: package:flutter_lints/flutter.yaml  →  lints/recommended.yaml  →  lints/core.yaml
+# Ver docs/PLAN_MAESTRO.md §17 (RNF), §20 (E1–E7), §27 (testing).
 
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  # ── Modo estricto del lenguaje ────────────────────────────────────────────
+  # Vale más que cualquier lint de la lista de abajo: cambia lo que el
+  # compilador acepta, no solo lo que el linter señala.
+  language:
+    # Elimina el downcast implícito de `dynamic`. Sin esto,
+    # `final String n = json['name'];` compila y revienta en runtime cuando el
+    # JSON trae otro tipo. Con esto hay que decidir explícitamente qué pasa si
+    # el campo no es lo esperado — la disciplina que exige el §22
+    # ("fromJson tolerante: campo faltante → valor por defecto").
+    strict-casts: true
+
+    # Obliga a anotar allí donde la inferencia solo podría concluir `dynamic`.
+    strict-inference: true
+
+    # Prohíbe `Map`, `List` o `Future` sin argumentos de tipo. Cierra la puerta
+    # a que un Map crudo se escape de la capa de datos hacia arriba, que
+    # CLAUDE.md prohíbe de forma expresa.
+    strict-raw-types: true
+
+  # ── Severidades ───────────────────────────────────────────────────────────
+  # `flutter analyze` ya trae --fatal-infos y --fatal-warnings activos por
+  # defecto, así que un lint en severidad `info` ya rompe el análisis. Promover
+  # a `error` no cambia el exit code: cambia el subrayado en el IDE (rojo, no
+  # gris) y protege el criterio si alguna vez se corre `dart analyze`, donde los
+  # infos NO son fatales.
+  errors:
+    # Prohibición nº 1 del proyecto (RNF-15). Que salga en rojo.
+    empty_catches: error
+
+    # RNF-14 y lección L1: LocalStorage.setString() devuelve Future<bool>.
+    # Olvidar el await y mostrar "Guardado" ES el bug de "el usuario cree que
+    # guardó y no guardó".
+    unawaited_futures: error
+
+    # Usar `context` después de un await: causa clásica de crash tras guardar.
+    use_build_context_synchronously: error
+
+    # Complemento de strict-casts: prohíbe operar sobre `dynamic` sin tipar.
+    avoid_dynamic_calls: error
+
+    # Apoyo parcial a RNF-20 / E7 (código muerto). Detectan lo muerto DENTRO de
+    # un archivo; los archivos huérfanos los detecta tool/check_architecture.dart.
+    unused_import: error
+    unused_local_variable: error
+    unused_element: error
+    unused_field: error
+    dead_code: error
+
   exclude:
     - build/**
+    # `flutter analyze` reinserta android/** por su cuenta (migración automática
+    # "Upgrading analysis_options.yaml to exclude build and platform
+    # directories"). No contiene Dart, así que se deja declarado.
     - android/**
+    # test/ NO se excluye: el §27 exige que los tests también analicen limpio.
 
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # ── A. Pérdida de datos y asincronía · RNF-14, lección L1 ──────────────
+    # La regla más valiosa del archivo. Todo Future sin await queda señalado.
+    - unawaited_futures
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    # ── B. La capa de datos no filtra `dynamic` hacia arriba ───────────────
+    # Prohíbe `json['metrics'].length`. Obliga a tipar antes de operar.
+    - avoid_dynamic_calls
+    # Ninguna función con tipo de retorno implícito `dynamic`.
+    - always_declare_return_types
+    # Detecta `valor as String` cuando `valor` es `String?` — exactamente el
+    # null que devuelve SharedPreferences cuando la clave no existe
+    # ("nunca asumas que una clave existe", §22).
+    - cast_nullable_to_non_nullable
+    # Inmutabilidad por defecto en modelos y lógica de negocio.
+    - prefer_final_locals
+    - prefer_final_in_for_each
+
+    # ── C. Errores explícitos · RNF-15 ─────────────────────────────────────
+    # Obliga a lanzar subclases de Exception/Error, nunca un String. Es lo que
+    # sostiene ContentException (§20).
+    - only_throw_errors
+
+    # ── D. Estructura y trazabilidad · E1–E7 ───────────────────────────────
+    # Habilitadora del verificador de estructura: fuerza
+    # `package:eira/core/storage/local_storage.dart` en lugar de
+    # `../../../core/storage/local_storage.dart`. Con imports de paquete, E4 es
+    # una comprobación determinista; con rutas relativas sería un problema de
+    # resolución de paths. Además impide el espagueti relativo entre features
+    # que originó la deuda del proyecto anterior.
+    - always_use_package_imports
+    # Imports ordenados: diffs limpios y violaciones de capa visibles a simple vista.
+    - directives_ordering
+
+    # ── E. Rendimiento · RNF-09, RNF-10 ────────────────────────────────────
+    # Reconstrucciones evitadas en gama media con Android 8.
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - use_colored_box
+    - use_decorated_box
+
+    # ── F. Consistencia de estilo ──────────────────────────────────────────
+    # Estilo de casa de Dart/Flutter. Con 2 archivos es gratis; con 80 sería
+    # una refactorización.
+    - prefer_single_quotes
+    - avoid_redundant_argument_values
+    # Evita `Habit(true, false)`, ilegible en una base con muchos modelos.
+    - avoid_positional_boolean_parameters
+
+    # ── Reglas evaluadas y DESCARTADAS a propósito ─────────────────────────
+    # avoid_catches_without_on_clauses · choca con RNF-15: el patrón que pide el
+    #   plan es un catch amplio en la frontera del repositorio que convierte
+    #   cualquier fallo en un estado de error explícito.
+    # discarded_futures · dispara en cada `onPressed: () => provider.guardar()`.
+    #   Empujaría a sembrar `// ignore:`. unawaited_futures cubre el riesgo real.
+    # require_trailing_commas y lines_longer_than_80_chars · Dart 3.13 usa el
+    #   formateador tall style, que gestiona comas y saltos por su cuenta.
+    #   El formateador es el dueño del formato, no el linter.
+    # public_member_api_docs · esto es una app, no un paquete publicado.
+    # prefer_relative_imports · excluyente con always_use_package_imports.
+    # always_specify_types · choca con omit_local_variable_types; strict-raw-types
+    #   ya cubre el caso peligroso.
+    # flutter_style_todos · solo verifica el formato, no que exista el ticket.
+    # El diagnóstico `todo` no se promueve a warning: rompería "cero warnings"
+    #   para TODOs que sí tienen tarea asociada, permitidos por CLAUDE.md.
