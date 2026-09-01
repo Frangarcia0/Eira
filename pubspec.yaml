@@ -37,7 +37,8 @@ dependencies:
 
   # Persistencia local clave-valor. Única vía de almacenamiento de la app
   # (PLAN_MAESTRO §22); solo lib/core/storage/ la importa (regla E4).
-  # Decisión, alternativas descartadas y consecuencias en ADR-009.
+  # Elección del paquete, alternativas descartadas (hive, sqflite, archivos
+  # planos) y consecuencias en ADR-004; la forma de la API, en ADR-009.
   shared_preferences: ^2.5.5
 
   # Enrutado declarativo. Sostiene el shell de 5 pestañas y el mapa de rutas del
