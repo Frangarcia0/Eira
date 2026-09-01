@@ -165,6 +165,24 @@ class LocalStorage {
     return raw;
   }
 
+  /// Entero guardado en [key], o [defaultValue] si la clave no existe.
+  ///
+  /// Existe por `eira.schema_version` (`PLAN_MAESTRO` §22), la única clave
+  /// entera del plan. En T-006 se dejó fuera a propósito —un método sin ningún
+  /// consumidor— y la agrega **T-007**, junto con la lógica de migración que
+  /// le da sentido. La decisión está en `ADR-009`, sección «Superficie de la
+  /// API».
+  int readInt(String key, {required int defaultValue}) {
+    final Object? raw = _preferences.get(key);
+    if (raw == null) {
+      return defaultValue;
+    }
+    if (raw is! int) {
+      throw StorageException(key: key, reason: _seEsperaba('un entero', raw));
+    }
+    return raw;
+  }
+
   /// Lista de textos guardada en [key], o [defaultValue] si la clave no
   /// existe. Pensada para listas de identificadores, como los favoritos.
   List<String> readStringList(
@@ -278,6 +296,10 @@ class LocalStorage {
   /// no dice nada en el sitio de la llamada.
   Future<bool> writeBool(String key, {required bool value}) =>
       _preferences.setBool(key, value);
+
+  /// Guarda un entero. Devuelve `true` solo si se persistió.
+  Future<bool> writeInt(String key, int value) =>
+      _preferences.setInt(key, value);
 
   /// Guarda una lista de textos. Devuelve `true` solo si se persistió.
   Future<bool> writeStringList(String key, List<String> value) =>
