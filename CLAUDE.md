@@ -157,15 +157,19 @@ nunca decrece · el recálculo desde el historial coincide con el caché.
 
 ## Commits (los hace el autor, tú solo propones el mensaje)
 
-`<tipo>(<alcance>): <imperativo, minúscula, sin punto>`
+Mensajes en ESPAÑOL. Tipo en inglés (convención estándar), descripción en español.
 
-Tipos: `feat` `fix` `refactor` `test` `docs` `content` `style` `chore`
-Alcances: `onboarding` `habits` `metrics` `recipes` `exercise` `education` `profile`
-`privacy` `storage` `content` `theme` `router` `notifications` `backup`
+<tipo>(<alcance>): <descripción en español, imperativo, minúscula, sin punto>
+
+Tipos: feat fix refactor test docs content style chore
+Alcances: onboarding habits metrics recipes exercise education profile
+privacy storage content theme router notifications backup analysis tooling
+
+Ejemplo: feat(habits): agregar persistencia de hábitos completados
 
 Un commit = una unidad verificable. Si el mensaje necesita "y", son dos commits.
-El commit que cierra un requisito lo referencia: `Refs: RF-13`.
-Prohibidos: "cambios varios", "avance", "actualización", "fix bugs".
+El commit que cierra un requisito lo referencia: Refs: RF-13.
+Prohibidos: "cambios varios", "avance", "actualización", "arreglar bugs".
 
 ---
 

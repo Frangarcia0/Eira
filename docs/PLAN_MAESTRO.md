@@ -1207,6 +1207,7 @@ El proyecto anterior terminó con un `widget_test.dart` de cuerpo vacío y un co
 
 - [ ] Implementada según su criterio de aceptación
 - [ ] `flutter analyze` sin errores ni warnings
+- [ ] `dart run tool/check_architecture.dart` sin violaciones (E1–E7 y prohibición de red)
 - [ ] Sin `catch` vacío, sin `TODO` sin ticket asociado
 - [ ] Cumple las reglas E1–E7
 - [ ] Probada manualmente en dispositivo físico

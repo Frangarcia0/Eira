@@ -49,11 +49,23 @@ flutter pub get
 flutter run
 ```
 
-Verificación estática:
+Verificación estática completa — reglas estructurales E1–E7, prohibición de red y
+`flutter analyze`, en un solo comando:
+
+```powershell
+.\tool\verify.ps1
+```
+
+Por separado:
 
 ```bash
+dart run tool/check_architecture.dart
 flutter analyze
 ```
+
+El verificador de reglas estructurales existe porque el analizador de Dart no admite reglas de
+import ni de expresión acotadas por carpeta. La decisión está en
+[`ADR-007`](docs/decisions/ADR-007-verificacion-reglas-estructurales.md).
 
 ## Estructura
 
