@@ -34,8 +34,14 @@
 /// declaración de privacidad de la app y una clave no declarada la convierte
 /// en falsa.
 ///
-/// La clave `eira.schema_version` todavía no está aquí: la agrega T-007 junto
-/// con la lógica de migración que le da sentido.
+/// ## La única clave sin `v1`
+///
+/// [schemaVersion] es `eira.schema_version`, sin el segmento de versión. No es
+/// un descuido: es la clave que **dice en qué versión están las demás**, así
+/// que no puede estar ella misma versionada. Si se llamara `eira.v1.schema_version`,
+/// la migración a v2 tendría que buscar la versión guardada bajo un nombre que
+/// habla de v1 —y adivinar bajo cuál buscar es justo el problema que la clave
+/// resuelve—. Su nombre es estable para siempre; lo que cambia es su valor.
 class StorageKeys {
   /// Constructor privado: [StorageKeys] es un contenedor de constantes y no se
   /// instancia nunca.
@@ -47,6 +53,25 @@ class StorageKeys {
   /// escribió, sin tocar las claves de otros plugins que comparten el mismo
   /// almacén. Toda clave de este archivo empieza por él.
   static const String prefix = 'eira.';
+
+  // ---------------------------------------------------------------------
+  // Versión del esquema
+  // ---------------------------------------------------------------------
+
+  /// Entero con la versión del esquema de datos guardado en el dispositivo.
+  ///
+  /// La lee `SchemaMigration` al arrancar (`PLAN_MAESTRO` §22, «Estrategia de
+  /// migración»): si no existe, es una instalación nueva; si es menor que la
+  /// versión actual de la app, hay que migrar en cadena antes de que ningún
+  /// repositorio lea un solo dato.
+  ///
+  /// Es la excepción a la convención `eira.v1.<dominio>.<detalle>`, explicada
+  /// en la cabecera de este archivo.
+  ///
+  /// Empieza por [prefix], así que `LocalStorage.deleteAll()` también la
+  /// borra. Es lo correcto: después de un borrado total no queda nada que
+  /// migrar y el siguiente arranque es, legítimamente, una instalación nueva.
+  static const String schemaVersion = 'eira.schema_version';
 
   // ---------------------------------------------------------------------
   // Perfil
