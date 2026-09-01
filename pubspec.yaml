@@ -40,6 +40,14 @@ dependencies:
   # Decisión, alternativas descartadas y consecuencias en ADR-009.
   shared_preferences: ^2.5.5
 
+  # Enrutado declarativo. Sostiene el shell de 5 pestañas y el mapa de rutas del
+  # PLAN_MAESTRO §23; el §19 ya lo da por adoptado.
+  # La 18.0.0 movió las transiciones y la pantalla de error internas a los
+  # paquetes material_ui / cupertino_ui, que traen su propia copia de Material:
+  # por eso la app declara `builder:` y `errorBuilder:` propios y nunca
+  # `pageBuilder:`. Decisión, alternativas y consecuencias en ADR-010.
+  go_router: ^18.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
