@@ -35,6 +35,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Persistencia local clave-valor. Única vía de almacenamiento de la app
+  # (PLAN_MAESTRO §22); solo lib/core/storage/ la importa (regla E4).
+  # Decisión, alternativas descartadas y consecuencias en ADR-009.
+  shared_preferences: ^2.5.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
