@@ -1,0 +1,12 @@
+[
+  {
+    "id": "demo-1",
+    "title": "Ítem de prueba A",
+    "conditions": ["diabetes"]
+  },
+  {
+    "id": "demo-2",
+    "title": "Ítem de prueba B",
+    "conditions": ["both"]
+  }
+]
