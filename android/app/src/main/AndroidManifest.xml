@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Respaldo del sistema desactivado: ver
+         docs/decisions/ADR-006-disable-android-backup.md
+         (PLAN_MAESTRO §22 y §26, RF-43). -->
     <application
         android:label="eira"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:exported="true"
