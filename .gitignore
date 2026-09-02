@@ -68,3 +68,6 @@ desktop.ini
 # Artefactos empaquetados
 *.apk
 *.aab
+
+# Material de diseño en bruto, no se commitea (T-015b)
+design/source/
