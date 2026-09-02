@@ -27,6 +27,7 @@ requisito, no al final** (§30).
 | Archivo | Qué es |
 |---|---|
 | [`PLAN_MAESTRO.md`](PLAN_MAESTRO.md) | El plan completo: alcance, requisitos, diseño técnico, calidad, calendario y riesgos. **Ante cualquier duda de alcance, arquitectura o calendario, manda este documento** |
+| [`backlog-additions.md`](backlog-additions.md) | Tareas que **no están en el §41** y aparecieron durante la ejecución. El plan no se reescribe hacia atrás; las tareas nuevas se registran aquí |
 | [`../CLAUDE.md`](../CLAUDE.md) | Reglas operativas del día a día, derivadas del plan |
 
 ---
@@ -38,6 +39,7 @@ requisito, no al final** (§30).
 | `requirements/` | `functional.md`, `non-functional.md` y **`traceability-matrix.md`** — el documento clave del §30 | Vacía. Se llena al cerrar los primeros requisitos |
 | `architecture/` | `overview.md`, `data-model.md`, `persistence.md`, `navigation.md` y los diagramas | Vacía. Los diagramas se agregan al diseñarse y al cambiar (§31) |
 | `decisions/` | **ADRs numerados.** Toda decisión técnica no obvia (§28) | Activa — ver índice abajo |
+| `design/` | `reference-legacy.md` — qué composición del proyecto anterior se consulta al diseñar una pantalla y qué queda cerrado. **Referencia, nunca plantilla** | Activa desde T-015c |
 | `content/` | `content-registry.md`, `image-credits.md`, `sources.md` y **`dual-condition-analysis.md`** | Vacía. Empieza con el primer ítem de contenido de salud |
 | `testing/` | `strategy.md`, `manual-test-plan.md` y `results/` | Vacía. `results/` recibe el resultado de `flutter test` cada sprint |
 | `accessibility/` | `rules.md`, `contrast-verification.md` y `screen-checklists/` | Parcial — `contrast-verification.md` existe desde T-004 |
