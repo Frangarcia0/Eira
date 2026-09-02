@@ -174,6 +174,10 @@ Es el único parámetro de esta configuración que es juicio visual y no medici�
 y por eso queda escrito con su aritmética: **cambiarlo es editar una línea de
 `pubspec.yaml` y volver a generar.**
 
+**Validado en dispositivo físico** el 2 de septiembre de 2026 sobre un Xiaomi
+`24117RK2CG` con Android 16 (API 36). El valor deja de ser provisional.
+Evidencia en `docs/evidence/screenshots/t015b-icono-app.jpeg`.
+
 ---
 
 ## Consecuencias
@@ -226,4 +230,6 @@ y por eso queda escrito con su aritmética: **cambiarlo es editar una línea de
 - **Un error del generador se nota tarde.** No lo ve `flutter analyze`, no lo ven
   los tests y no lo ve el verificador de arquitectura: solo aparece al instalar
   en un dispositivo físico. Por eso la verificación de esta tarea incluye esa
-  instalación y su captura.
+  instalación y su captura, hecha el 2 de septiembre de 2026 y archivada en
+  `docs/evidence/screenshots/`. **Cada regeneración futura del ícono vuelve a
+  exigirla**: es la única comprobación que existe para este archivo.
