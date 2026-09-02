@@ -60,6 +60,48 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
+  # Genera las capas del ícono adaptativo de Android a partir del isotipo.
+  # Es dependencia de DESARROLLO: no se compila en el APK, no ejecuta código en
+  # el dispositivo y no abre superficie de red (§14). Decisión, alternativas
+  # descartadas (ícono por defecto de Flutter, generar las ~16 capas a mano) y
+  # consecuencias en ADR-012.
+  # Los archivos que produce bajo android/app/src/main/res/ SE REGENERAN CON EL
+  # COMANDO, NUNCA SE EDITAN A MANO.
+  flutter_launcher_icons: ^0.14.4
+
+# Configuración del generador de íconos (ADR-012). Se aplica con:
+#   dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: false
+
+  # Recurso heredado. Con minSdk 26 ningún dispositivo soportado por EIRA llega
+  # a mostrarlo —todos usan la vía adaptativa—, pero Android lo exige como
+  # reserva.
+  image_path: "assets/branding/eira_isotype.webp"
+
+  # Color de marca exacto = AppColors.sage400 (lib/core/theme/app_colors.dart).
+  # No es un valor nuevo: es el token medido en T-004, registrado en
+  # docs/accessibility/contrast-verification.md y fijado por ADR-008, que le
+  # asigna el rol de "superficie grande sin texto encima".
+  # Duplicar el hexadecimal aquí es la consecuencia negativa principal de
+  # ADR-012: el formato de configuración es YAML y no puede leer Dart. Si el
+  # token cambia en app_colors.dart, HAY QUE CAMBIARLO AQUÍ TAMBIÉN — no hay
+  # herramienta que lo detecte.
+  adaptive_icon_background: "#979F80"
+
+  # La marca sobre transparencia, al 66 % del lienzo (zona segura del ícono
+  # adaptativo). Derivada de eira_isotype.webp; ver ADR-012 y
+  # docs/content/image-credits.md.
+  adaptive_icon_foreground: "assets/branding/eira_isotype_mark.webp"
+
+  # El generador aplica por defecto un inset del 16 %, que sobre una marca ya
+  # dimensionada al 66 % la dejaría en el 45 % del lienzo: demasiado pequeña.
+  # Con 8 %:  66 % × (1 − 0,16) = 55,4 % del lienzo de 108 dp, es decir ~83 %
+  # del área visible de 72 dp. Es la proporción de la retícula de íconos de
+  # producto de Material para una marca circular. Ver ADR-012.
+  adaptive_icon_foreground_inset: 8
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
