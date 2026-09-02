@@ -40,7 +40,7 @@ requisito, no al final** (§30).
 | `architecture/` | `overview.md`, `data-model.md`, `persistence.md`, `navigation.md` y los diagramas | Vacía. Los diagramas se agregan al diseñarse y al cambiar (§31) |
 | `decisions/` | **ADRs numerados.** Toda decisión técnica no obvia (§28) | Activa — ver índice abajo |
 | `design/` | `reference-legacy.md` — qué composición del proyecto anterior se consulta al diseñar una pantalla y qué queda cerrado. **Referencia, nunca plantilla** | Activa desde T-015c |
-| `content/` | `content-registry.md`, `image-credits.md`, `sources.md` y **`dual-condition-analysis.md`** | Vacía. Empieza con el primer ítem de contenido de salud |
+| `content/` | `content-registry.md`, `image-credits.md`, `sources.md` y **`dual-condition-analysis.md`** | Parcial — `image-credits.md` existe desde T-015b. Los registros de contenido de salud empiezan con el primer ítem |
 | `testing/` | `strategy.md`, `manual-test-plan.md` y `results/` | Vacía. `results/` recibe el resultado de `flutter test` cada sprint |
 | `accessibility/` | `rules.md`, `contrast-verification.md` y `screen-checklists/` | Parcial — `contrast-verification.md` existe desde T-004 |
 | `privacy/` | `data-inventory.md` (fuente de la pantalla "Sobre tus datos") y `legal-analysis.md` (Ley 19.628 / 21.719) | Vacía. Se llena junto con la pantalla `/profile/data` |
@@ -82,9 +82,10 @@ evaluadas**, decisión y consecuencias **incluidas las negativas**.
 | [009](decisions/ADR-009-localstorage-generico.md) | `LocalStorage` genérico: el dominio vive en los repositorios | T-006 |
 | [010](decisions/ADR-010-go-router-shell-con-estado.md) | `go_router` 18 y un shell con estado por pestaña | T-010 |
 | [011](decisions/ADR-011-fromjson-tolerante-y-campos-obligatorios.md) | `fromJson` tolerante, pero no con los campos obligatorios | T-013 |
+| [012](decisions/ADR-012-icono-de-app-adaptativo.md) | Ícono de aplicación adaptativo generado con `flutter_launcher_icons` | T-015b |
 
 Los ADR **001 a 004** son documentación retroactiva: formalizan decisiones
-tomadas en el plan maestro antes del primer commit. Los **006 a 011** documentan
+tomadas en el plan maestro antes del primer commit. Los **006 a 012** documentan
 decisiones tomadas al implementar. El §30 solo enumera hasta el 006 porque su
 listado ilustra la estructura, no cierra el catálogo.
 
