@@ -79,9 +79,10 @@ evaluadas**, decisión y consecuencias **incluidas las negativas**.
 | [008](decisions/ADR-008-primario-accesible.md) | Primario accesible: escala salvia derivada del color de marca | T-004 |
 | [009](decisions/ADR-009-localstorage-generico.md) | `LocalStorage` genérico: el dominio vive en los repositorios | T-006 |
 | [010](decisions/ADR-010-go-router-shell-con-estado.md) | `go_router` 18 y un shell con estado por pestaña | T-010 |
+| [011](decisions/ADR-011-fromjson-tolerante-y-campos-obligatorios.md) | `fromJson` tolerante, pero no con los campos obligatorios | T-013 |
 
 Los ADR **001 a 004** son documentación retroactiva: formalizan decisiones
-tomadas en el plan maestro antes del primer commit. Los **006 a 010** documentan
+tomadas en el plan maestro antes del primer commit. Los **006 a 011** documentan
 decisiones tomadas al implementar. El §30 solo enumera hasta el 006 porque su
 listado ilustra la estructura, no cierra el catálogo.
 
