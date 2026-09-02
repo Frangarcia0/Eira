@@ -1,6 +1,7 @@
 import 'package:eira/core/router/eira_shell.dart';
 import 'package:eira/core/router/route_placeholder_page.dart';
 import 'package:eira/core/router/routes.dart';
+import 'package:eira/features/onboarding/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -103,8 +104,9 @@ String? _redirigirAlPrimerPaso(BuildContext context, GoRouterState state) {
 // Mapa de rutas
 // ---------------------------------------------------------------------------
 
-/// El mapa del §23. Las pantallas son [RoutePlaceholderPage] hasta que T-015 y
-/// siguientes las reemplacen, una por una, sin tocar esta estructura.
+/// El mapa del §23. Las pantallas que faltan son [RoutePlaceholderPage] hasta
+/// que T-016 y siguientes las reemplacen, una por una, sin tocar esta
+/// estructura. La primera reemplazada es la bienvenida, en T-015.
 final List<RouteBase> _rutas = <RouteBase>[
   // La única redirección de la app. Solo reescribe `/`: bloquear además el
   // shell mientras el onboarding esté incompleto es trabajo de T-018 y T-019,
@@ -118,14 +120,7 @@ final List<RouteBase> _rutas = <RouteBase>[
   GoRoute(
     path: Routes.onboardingWelcome,
     builder: (BuildContext context, GoRouterState state) =>
-        const RoutePlaceholderPage(
-          title: 'Bienvenida',
-          location: Routes.onboardingWelcome,
-          pendingTask: 'T-015',
-          destinations: <PlaceholderDestination>[
-            (label: 'Continuar', location: Routes.onboardingProfileSetup),
-          ],
-        ),
+        const WelcomePage(),
   ),
   GoRoute(
     path: Routes.onboardingProfileSetup,

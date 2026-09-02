@@ -1,6 +1,7 @@
 import 'package:eira/core/router/app_router.dart';
 import 'package:eira/core/router/eira_shell.dart';
 import 'package:eira/core/router/routes.dart';
+import 'package:eira/features/onboarding/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +62,7 @@ void main() {
       await montarApp(tester, router);
 
       expect(router.state.uri.toString(), Routes.onboardingWelcome);
-      expect(find.text('Bienvenida'), findsOneWidget);
+      expect(find.byType(WelcomePage), findsOneWidget);
       // El onboarding queda fuera del shell: no hay barra de pestañas.
       expect(find.byType(EiraShell), findsNothing);
     });
@@ -84,7 +85,7 @@ void main() {
       await tester.pumpWidget(MaterialApp.router(routerConfig: router));
 
       expect(router.state.uri.toString(), Routes.onboardingWelcome);
-      expect(find.text('Bienvenida'), findsOneWidget);
+      expect(find.byType(WelcomePage), findsOneWidget);
     });
 
     testWidgets('el contenedor /onboarding lleva al primer paso', (
