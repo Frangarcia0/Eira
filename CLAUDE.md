@@ -163,7 +163,7 @@ Mensajes en ESPAÑOL. Tipo en inglés (convención estándar), descripción en e
 
 Tipos: feat fix refactor test docs content style chore
 Alcances: onboarding habits metrics recipes exercise education profile
-privacy storage content theme router notifications backup analysis tooling
+privacy storage content theme router notifications backup analysis tooling decisions
 
 Ejemplo: feat(habits): agregar persistencia de hábitos completados
 
