@@ -77,8 +77,18 @@ class StorageKeys {
   // Perfil
   // ---------------------------------------------------------------------
 
-  /// Objeto JSON con el perfil de la persona: condición, año de nacimiento y
+  /// Objeto JSON con el perfil de la persona: **nombre**, año de nacimiento,
+  /// condición de salud, **fecha de término del onboarding** y fecha de
   /// aceptación del aviso legal. Uno por instalación.
+  ///
+  /// Se escribe **completo o no se escribe**: si esta clave existe, el
+  /// onboarding terminó y el aviso legal fue aceptado. La forma exacta la
+  /// define `UserProfile`, en `lib/core/models/user_profile.dart`.
+  ///
+  /// Es la única clave del catálogo que guarda un dato que identifica a una
+  /// persona por su nombre. La pantalla "Sobre tus datos" (RF-41) tiene que
+  /// enumerarlo: omitirlo la vuelve falsa por omisión, que es exactamente
+  /// contra lo que advierte la cabecera de este archivo.
   static const String profile = 'eira.v1.profile';
 
   // ---------------------------------------------------------------------
