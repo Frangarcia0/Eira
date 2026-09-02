@@ -71,10 +71,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  # Imágenes de marca: isotipo, wordmark, la ilustración del consejo del día y
+  # los cuatro íconos de categoría. Todas WebP y dentro del presupuesto del §7
+  # (íconos ≤ 20 KB, ilustraciones ≤ 80 KB). Licencias registradas en
+  # docs/content/image-credits.md, que es requisito para que entren (§25).
+  assets:
+    - assets/branding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
